@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DiaryExpenses;
 use App\Grade;
 use App\Subject;
 use App\Teacher;
 use Illuminate\Http\Request;
 
-class GradeController extends Controller
+class DiaryExpensesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +17,11 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $classes = Grade::withCount('students')->orderBy('id', 'desc')->paginate(10);
+        $incomes = DiaryExpenses::where('type', 1)->orderBy('id', 'desc')->paginate(10);
 
+        $expenses = DiaryExpenses::where('type', 2)->orderBy('id', 'desc')->paginate(10);
 
-        return view('backend.classes.index', compact('classes'));
+        return view('backend.expenseDiary.index', compact('incomes', 'expenses'));
     }
 
     /**
@@ -29,9 +31,8 @@ class GradeController extends Controller
      */
     public function create()
     {
-        $teachers = Teacher::latest()->get();
 
-        return view('backend.classes.create', compact('teachers'));
+        return view('backend.expenseDiary.create');
     }
 
     /**
@@ -43,28 +44,18 @@ class GradeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'class_name'        => 'required|string|max:255|unique:grades',
+            'type'        => 'required',
+            'amount'        => 'required',
+            'description'        => 'required'
         ]);
 
-        Grade::create([
-            'class_name'        => $request->class_name,
-            'class_numeric'     => $request->class_numeric,
-            'teacher_id'        => $request->teacher_id,
-            'class_description' => $request->class_description
+        DiaryExpenses::create([
+            'type'        => $request->type,
+            'amount'     => $request->amount,
+            'description'        => $request->description
         ]);
 
-        return redirect()->route('classes.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Grade  $grade
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Grade $grade)
-    {
-        //
+        return redirect()->route('dayBook.index');
     }
 
     /**
@@ -73,12 +64,11 @@ class GradeController extends Controller
      * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $teachers = Teacher::latest()->get();
-        $class = Grade::findOrFail($id);
+        $details = DiaryExpenses::findOrFail($id);
 
-        return view('backend.classes.edit', compact('class','teachers'));
+        return view('backend.expenseDiary.edit', compact('details'));
     }
 
     /**
@@ -88,23 +78,23 @@ class GradeController extends Controller
      * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
-            'class_name'        => 'required|string|max:255|unique:grades,class_name,'.$id
-
+            'type'        => 'required',
+            'amount'        => 'required',
+            'description'        => 'required'
         ]);
 
-        $class = Grade::findOrFail($id);
+        $dayBook = DiaryExpenses::findOrFail($request->id);
 
-        $class->update([
-            'class_name'        => $request->class_name,
-            'class_numeric'     => $request->class_numeric,
-            'teacher_id'        => $request->teacher_id,
-            'class_description' => $request->class_description
+        $dayBook->update([
+            'type'        => $request->type,
+            'amount'     => $request->amount,
+            'description'        => $request->description
         ]);
 
-        return redirect()->route('classes.index');
+        return redirect()->route('dayBook.index');
     }
 
     /**
@@ -115,12 +105,11 @@ class GradeController extends Controller
      */
     public function destroy($id)
     {
-        $class = Grade::findOrFail($id);
+        $dayBook = DiaryExpenses::findOrFail($id);
 
-        $class->subjects()->detach();
-        $class->delete();
+        $dayBook->delete();
 
-        return back();
+        return redirect()->route('dayBook.index');
     }
 
     /*

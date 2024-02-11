@@ -20,10 +20,21 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('class')->latest()->paginate(10);
+        $studentsQuery = Student::with('class')->latest();
 
+        if ($request->has('shift')) {
+            $shift = $request->shift;
+            $studentsQuery->where('shift', $shift);
+        }
+
+        if ($request->has('status')) {
+            $status = $request->status;
+            $studentsQuery->where('status', $status);
+        }
+
+        $students = $studentsQuery->paginate(10);
         return view('backend.students.index', compact('students'));
     }
 
@@ -91,6 +102,7 @@ class StudentController extends Controller
             'roll_number'       => $request->roll_number,
             'gender'            => $request->gender,
             'shift'            => $request->shift,
+            'status'            => $request->status,
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,
@@ -186,6 +198,7 @@ class StudentController extends Controller
             'roll_number'       => $request->roll_number,
             'gender'            => $request->gender,
             'shift'            => $request->shift,
+            'status'            => $request->status,
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,

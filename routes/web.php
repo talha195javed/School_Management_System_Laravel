@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\DiaryExpensesController;
 use App\Http\Controllers\FeeSubmittedDetailController;
 use App\Http\Controllers\StationaryChargeController;
 
@@ -67,6 +68,15 @@ Route::group(['middleware' => ['auth','role:Parent']], function ()
 Route::group(['middleware' => ['auth','role:Student']], function () {
 
 });
+
+
+Route::get('/day-book-index', [DiaryExpensesController::class, 'index'])->name('dayBook.index');
+Route::get('/day-book-create', [DiaryExpensesController::class, 'create'])->name('dayBook.create');
+Route::post('/day-book-store', [DiaryExpensesController::class, 'store'])->name('dayBook.store');
+Route::get('/day-book-edit/{id}', [DiaryExpensesController::class, 'edit'])->name('dayBook.edit');
+Route::post('/day-book-update', [DiaryExpensesController::class, 'update'])->name('dayBook.update');
+Route::delete('/day-book-delete/{id}', [DiaryExpensesController::class, 'destroy'])->name('dayBook.destroy');
+
 
 Route::get('/fee-submitted-create/{student_id}', [FeeSubmittedDetailController::class, 'create'])->name('fee.creates');
 

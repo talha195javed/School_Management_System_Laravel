@@ -13,6 +13,7 @@ class Student extends Model
         'roll_number',
         'gender',
         'shift',
+        'status',
         'phone',
         'dateofbirth',
         'current_address',
