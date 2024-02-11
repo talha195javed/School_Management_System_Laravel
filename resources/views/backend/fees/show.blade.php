@@ -27,7 +27,7 @@
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Name :
+                            Name : 
                         </label>
                     </div>
                     <div class="md:w-2/3">
@@ -155,84 +155,22 @@
                     </div>
                 </div>
 
-{{--                <div class="w-full px-0 md:px-6 py-12">--}}
-{{--                    <div class="flex items-center bg-gray-200">--}}
-{{--                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Code</div>--}}
-{{--                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Subject</div>--}}
-{{--                        <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-semibold">Teacher</div>--}}
-{{--                    </div>--}}
-{{--                    @foreach ($class->subjects as $subject)--}}
-{{--                        <div class="flex items-center justify-between border border-gray-200 mb-px">--}}
-{{--                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->subject_code }}</div>--}}
-{{--                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->name }}</div>--}}
-{{--                            <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-medium">{{ $subject->teacher->user->name }}</div>--}}
-{{--                        </div>--}}
-{{--                    @endforeach--}}
-{{--                </div>--}}
-            </div>
+                <div class="w-full px-0 md:px-6 py-12">
+                    <div class="flex items-center bg-gray-200">
+                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Code</div>
+                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Subject</div>
+                        <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-semibold">Teacher</div>
+                    </div>
+                    @foreach ($class->subjects as $subject)
+                        <div class="flex items-center justify-between border border-gray-200 mb-px">
+                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->subject_code }}</div>
+                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->name }}</div>
+                            <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-medium">{{ $subject->teacher->user->name }}</div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>        
         </div>
-        <div class="roles">
-            <h1 style="text-align: center; font-weight: bolder; font-size: 25px">Fee Details</h1>
-            <table id="fee">
-                <thead>
-                <tr>
-                    <th>Fee Month</th>
-                    <th>Fee Submitted</th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $totalFee = 0;
-                @endphp
-                @foreach($feeSubmittedDetails as $feeSubmittedDetail)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $feeSubmittedDetail->month)->format('F Y') }}</td>
-                        <td>{{ $feeSubmittedDetail->fee_submitted }}</td>
-                    </tr>
-                    @php
-                        $totalFee += $feeSubmittedDetail->fee_submitted;
-                    @endphp
-                @endforeach
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th>Total</th>
-                    <td>{{ $totalFee }}</td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <div class="roles" style="padding-bottom: 10%; padding-top: 10%;">
-            <h1 style="text-align: center; font-weight: bolder; font-size: 25px">Stationary Details</h1>
-            <table id="fee">
-                <thead>
-                <tr>
-                    <th>Stationary Details</th>
-                    <th>Charges Submitted</th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $totalCharges = 0;
-                @endphp
-                @foreach($stationaryCharges as $stationaryCharge)
-                    <tr>
-                        <td>{{ $stationaryCharge->stationary_details }}</td>
-                        <td>{{ $stationaryCharge->stationary_charges }}</td>
-                    </tr>
-                    @php
-                        $totalCharges += $stationaryCharge->stationary_charges;
-                    @endphp
-                @endforeach
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th>Total</th>
-                    <td>{{ $totalCharges }}</td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
+        
     </div>
 @endsection

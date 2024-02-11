@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\FeeSubmittedDetails;
+use App\StationaryCharge;
 use App\User;
 use App\Grade;
 use App\Parents;
@@ -50,7 +52,7 @@ class StudentController extends Controller
             'name'              => 'required|string|max:255',
             'email'             => 'required|string|email|max:255|unique:users',
             'password'          => 'required|string|min:8',
-            'parent_id'         => 'required|numeric',
+//            'parent_id'         => 'required|numeric',
             'class_id'          => 'required|numeric',
             'roll_number'       => [
                 'required',
@@ -110,7 +112,11 @@ class StudentController extends Controller
     {
         $class = Grade::with('subjects')->where('id', $student->class_id)->first();
 
-        return view('backend.students.show', compact('class','student'));
+        $feeSubmittedDetails = FeeSubmittedDetails::where('student_id', $student->id)->get();
+
+        $stationaryCharges = StationaryCharge::where('student_id', $student->id)->get();
+
+        return view('backend.students.show', compact('class','student','feeSubmittedDetails', 'stationaryCharges'));
     }
 
     /**
@@ -121,10 +127,15 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
+        $feeSubmittedDetails = FeeSubmittedDetails::where('student_id', $student->id)->get();
+
+        $stationaryCharges = StationaryCharge::where('student_id', $student->id)->get();
+
+
         $classes = Grade::latest()->get();
         $parents = Parents::with('user')->latest()->get();
 
-        return view('backend.students.edit', compact('classes','parents','student'));
+        return view('backend.students.edit', compact('classes','parents','student','feeSubmittedDetails', 'stationaryCharges'));
     }
 
     /**
@@ -139,7 +150,7 @@ class StudentController extends Controller
         $request->validate([
             'name'              => 'required|string|max:255',
             'email'             => 'required|string|email|max:255|unique:users,email,'.$student->user_id,
-            'parent_id'         => 'required|numeric',
+//            'parent_id'         => 'required|numeric',
             'class_id'          => 'required|numeric',
             'roll_number'       => [
                 'required',

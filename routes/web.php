@@ -11,6 +11,9 @@
 |
 */
 
+use App\Http\Controllers\FeeSubmittedDetailController;
+use App\Http\Controllers\StationaryChargeController;
+
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -24,7 +27,7 @@ Route::put('/profile/update', 'HomeController@profileUpdate')->name('profile.upd
 Route::get('/profile/changepassword', 'HomeController@changePasswordForm')->name('profile.change.password');
 Route::post('/profile/changepassword', 'HomeController@changePassword')->name('profile.changepassword');
 
-Route::group(['middleware' => ['auth','role:Admin']], function () 
+Route::group(['middleware' => ['auth','role:Admin']], function ()
 {
     Route::get('/roles-permissions', 'RolePermissionController@roles')->name('roles-permissions');
     Route::get('/role-create', 'RolePermissionController@createRole')->name('role.create');
@@ -50,13 +53,13 @@ Route::group(['middleware' => ['auth','role:Admin']], function ()
 
 });
 
-Route::group(['middleware' => ['auth','role:Teacher']], function () 
+Route::group(['middleware' => ['auth','role:Teacher']], function ()
 {
     Route::post('attendance', 'AttendanceController@store')->name('teacher.attendance.store');
     Route::get('attendance-create/{classid}', 'AttendanceController@createByTeacher')->name('teacher.attendance.create');
 });
 
-Route::group(['middleware' => ['auth','role:Parent']], function () 
+Route::group(['middleware' => ['auth','role:Parent']], function ()
 {
     Route::get('attendance/{attendance}', 'AttendanceController@show')->name('attendance.show');
 });
@@ -64,3 +67,14 @@ Route::group(['middleware' => ['auth','role:Parent']], function ()
 Route::group(['middleware' => ['auth','role:Student']], function () {
 
 });
+
+Route::get('/fee-submitted-create/{student_id}', [FeeSubmittedDetailController::class, 'create'])->name('fee.creates');
+
+Route::post('/fee-submitted-details', [FeeSubmittedDetailController::class, 'store'])->name('fee.store');
+
+Route::put('/fee-submitted-details/{feeSubmittedDetail}', [FeeSubmittedDetailController::class, 'edit']);
+
+Route::get('/stationary-charges/{student_id}', [StationaryChargeController::class, 'create'])->name('stationary.creates');
+Route::put('/stationary-charges/{stationaryCharge}', [StationaryChargeController::class, 'edit']);
+
+Route::post('/stationary-charges-details', [StationaryChargeController::class, 'store'])->name('stationary.store');
