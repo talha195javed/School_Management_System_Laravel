@@ -58,7 +58,6 @@
             </div>
         </div>
 
-        <!-- Expenses Record -->
         <div class="card mt-4">
             <div class="card-header bg-primary text-white">
                 <h4 class="mb-0">Expenses Record</h4>
@@ -100,6 +99,54 @@
                             <td></td>
                         </tr>
                         </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Fee Record</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-gray-300">
+                        <tr>
+                            <th></th>
+                            <th>Amount Collected</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total</td>
+                                <td>{{ $fees }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Stationary Record</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-gray-300">
+                        <tr>
+                            <th></th>
+                            <th>Amount Collected</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Total</td>
+                            <td>{{ $stationary }}</td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

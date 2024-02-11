@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DiaryExpenses;
+use App\FeeSubmittedDetails;
 use App\Grade;
+use App\StationaryCharge;
 use App\Subject;
 use App\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DiaryExpensesController extends Controller
@@ -17,11 +20,30 @@ class DiaryExpensesController extends Controller
      */
     public function index()
     {
-        $incomes = DiaryExpenses::where('type', 1)->orderBy('id', 'desc')->paginate(10);
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
 
-        $expenses = DiaryExpenses::where('type', 2)->orderBy('id', 'desc')->paginate(10);
+        $fees = FeeSubmittedDetails::whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->sum('fee_submitted');
 
-        return view('backend.expenseDiary.index', compact('incomes', 'expenses'));
+        $stationary = StationaryCharge::whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->sum('stationary_charges');
+
+        $incomes = DiaryExpenses::where('type', 1)
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        $expenses = DiaryExpenses::where('type', 2)
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        return view('backend.expenseDiary.index', compact('incomes', 'expenses', 'fees', 'stationary'));
     }
 
     /**
