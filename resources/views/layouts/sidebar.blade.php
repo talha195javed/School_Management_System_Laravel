@@ -8,15 +8,15 @@
             <li>
                 <a href="{{ route('classes.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-chalkboard-teacher mr-2"></i><span class="text-sm font-semibold">Classes</span></a>
             </li>
-            <li>
-                <a href="{{ route('subject.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-book mr-2"></i><span class="text-sm font-semibold">Subjects</span></a>
-            </li>
+{{--            <li>--}}
+{{--                <a href="{{ route('subject.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-book mr-2"></i><span class="text-sm font-semibold">Subjects</span></a>--}}
+{{--            </li>--}}
             <li>
                 <a href="{{ route('teacher.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-tie mr-2"></i><span class="text-sm font-semibold">Teachers</span></a>
             </li>
-            <li>
-                <a href="{{ route('parents.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-friends mr-2"></i><span class="text-sm font-semibold">Parents</span></a>
-            </li>
+{{--            <li>--}}
+{{--                <a href="{{ route('parents.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-friends mr-2"></i><span class="text-sm font-semibold">Parents</span></a>--}}
+{{--            </li>--}}
             <li>
                 <a href="{{ route('dayBook.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-book mr-2"></i><span class="text-sm font-semibold">Day Book</span></a>
             </li>
@@ -53,15 +53,15 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="{{ route('attendance.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="far fa-calendar-check mr-2"></i><span class="text-sm font-semibold">Attendance</span></a>
-            </li>
-            <li>
-                <a href="{{ route('assignrole.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-lock mr-2"></i><span class="text-sm font-semibold">Assign Role</span></a>
-            </li>
-            <li>
-                <a href="{{ route('roles-permissions') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-users-cog mr-2"></i><span class="text-sm font-semibold">Roles &amp; Permissions</span></a>
-            </li>
+{{--            <li>--}}
+{{--                <a href="{{ route('attendance.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="far fa-calendar-check mr-2"></i><span class="text-sm font-semibold">Attendance</span></a>--}}
+{{--            </li>--}}
+{{--            <li>--}}
+{{--                <a href="{{ route('assignrole.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-lock mr-2"></i><span class="text-sm font-semibold">Assign Role</span></a>--}}
+{{--            </li>--}}
+{{--            <li>--}}
+{{--                <a href="{{ route('roles-permissions') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-users-cog mr-2"></i><span class="text-sm font-semibold">Roles &amp; Permissions</span></a>--}}
+{{--            </li>--}}
             @endrole
         </ul>
     </div>
