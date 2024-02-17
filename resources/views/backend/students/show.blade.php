@@ -8,8 +8,14 @@
                 <h2 class="text-gray-700 uppercase font-bold">Student Details</h2>
             </div>
             <div class="flex flex-wrap items-center">
-                <a href="{{ route('student.index') }}" class="bg-gray-200 text-gray-700 text-sm uppercase py-2 px-4 flex items-center rounded">
-                    <svg class="w-3 h-3 fill-current" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="long-arrow-alt-left" class="svg-inline--fa fa-long-arrow-alt-left fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"></path></svg>
+                <a href="{{ route('student.index') }}"
+                   class="bg-gray-200 text-gray-700 text-sm uppercase py-2 px-4 flex items-center rounded">
+                    <svg class="w-3 h-3 fill-current" aria-hidden="true" focusable="false" data-prefix="fas"
+                         data-icon="long-arrow-alt-left" class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path fill="currentColor"
+                              d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"></path>
+                    </svg>
                     <span class="ml-2 text-xs font-semibold">Back</span>
                 </a>
             </div>
@@ -21,7 +27,8 @@
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3"></div>
                     <div class="md:w-2/3">
-                        <img class="w-20 h-20 sm:w-32 sm:h-32 rounded" src="{{ asset('images/profile/' .$student->user->profile_picture) }}" alt="avatar">
+                        <img class="w-20 h-20 sm:w-32 sm:h-32 rounded"
+                             src="{{ asset('images/profile/' .$student->user->profile_picture) }}" alt="avatar">
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -155,20 +162,20 @@
                     </div>
                 </div>
 
-{{--                <div class="w-full px-0 md:px-6 py-12">--}}
-{{--                    <div class="flex items-center bg-gray-200">--}}
-{{--                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Code</div>--}}
-{{--                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Subject</div>--}}
-{{--                        <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-semibold">Teacher</div>--}}
-{{--                    </div>--}}
-{{--                    @foreach ($class->subjects as $subject)--}}
-{{--                        <div class="flex items-center justify-between border border-gray-200 mb-px">--}}
-{{--                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->subject_code }}</div>--}}
-{{--                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->name }}</div>--}}
-{{--                            <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-medium">{{ $subject->teacher->user->name }}</div>--}}
-{{--                        </div>--}}
-{{--                    @endforeach--}}
-{{--                </div>--}}
+                {{--                <div class="w-full px-0 md:px-6 py-12">--}}
+                {{--                    <div class="flex items-center bg-gray-200">--}}
+                {{--                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Code</div>--}}
+                {{--                        <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-semibold">Subject</div>--}}
+                {{--                        <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-semibold">Teacher</div>--}}
+                {{--                    </div>--}}
+                {{--                    @foreach ($class->subjects as $subject)--}}
+                {{--                        <div class="flex items-center justify-between border border-gray-200 mb-px">--}}
+                {{--                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->subject_code }}</div>--}}
+                {{--                            <div class="w-1/3 text-left text-gray-600 py-2 px-4 font-medium">{{ $subject->name }}</div>--}}
+                {{--                            <div class="w-1/3 text-right text-gray-600 py-2 px-4 font-medium">{{ $subject->teacher->user->name }}</div>--}}
+                {{--                        </div>--}}
+                {{--                    @endforeach--}}
+                {{--                </div>--}}
             </div>
         </div>
         <div class="roles">
@@ -235,4 +242,94 @@
             </table>
         </div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-gray-700 uppercase font-bold" style="text-align: center">Attendance</h3>
+            </div>
+        </div>
+        <div class="accordion mt-4" id="accordionExample">
+            @foreach($attendances->groupBy(function($date) { return Carbon\Carbon::parse($date->attendence_date)->format('F Y'); }) as $month => $attendance)
+                <div class="card">
+                    <div class="card-header" id="heading{{ $loop->iteration }}">
+                        <h1 style="text-align: center" class="mb-0">
+                            <button class="btn btn-link text-white" type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ $loop->iteration }}" aria-expanded="true"
+                                    aria-controls="collapse{{ $loop->iteration }}">
+                                {{ $month }}
+                            </button>
+                        </h1>
+                    </div>
+
+                    <div id="collapse{{ $loop->iteration }}" class="collapse {{ $loop->first ? 'show' : '' }}"
+                         aria-labelledby="heading{{ $loop->iteration }}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($attendance as $record)
+                                    <tr>
+                                        <td>{{ $record->attendence_date }}</td>
+                                        <td>{{ $record->attendence_status ? 'Present' : 'Absent' }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <style>
+        .accordion {
+            width: 100%;
+        }
+
+        .accordion .card {
+            margin-bottom: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion .card-header {
+            background-color: #3490dc; /* Blue theme */
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .accordion .card-header h2 button {
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .accordion .card-body {
+            background-color: #f8f9fa; /* Light gray background */
+            padding: 15px;
+        }
+
+        .accordion .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .accordion .table th,
+        .accordion .table td {
+            padding: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .accordion .table th {
+            background-color: #e9ecef; /* Lighter gray background for table header */
+        }
+    </style>
+
 @endsection

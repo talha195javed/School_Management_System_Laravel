@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attendance;
 use App\FeeSubmittedDetails;
 use App\StationaryCharge;
 use App\User;
@@ -101,7 +102,7 @@ class StudentController extends Controller
             'class_id'          => $request->class_id,
             'roll_number'       => $request->roll_number,
             'gender'            => $request->gender,
-            'shift'            => $request->shift,
+            'shift'             => $request->shift,
             'status'            => $request->status,
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
@@ -128,7 +129,9 @@ class StudentController extends Controller
 
         $stationaryCharges = StationaryCharge::where('student_id', $student->id)->get();
 
-        return view('backend.students.show', compact('class','student','feeSubmittedDetails', 'stationaryCharges'));
+        $attendances = Attendance::where('student_id', $student->id)->get();
+
+        return view('backend.students.show', compact('class', 'student', 'feeSubmittedDetails', 'stationaryCharges', 'attendances'));
     }
 
     /**
@@ -198,6 +201,8 @@ class StudentController extends Controller
             'roll_number'       => $request->roll_number,
             'gender'            => $request->gender,
             'shift'            => $request->shift,
+            'result_card'       => $request->result_card,
+            'certificate'       => $request->certificate,
             'status'            => $request->status,
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,

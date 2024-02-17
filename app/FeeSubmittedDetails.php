@@ -10,6 +10,8 @@ class FeeSubmittedDetails extends Model
         'student_id',
         'month',
         'fee_submitted',
+        'pay_paid',
+        'teacher_id',
     ];
 
     public function student()

@@ -10,57 +10,6 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $months = Attendance::select('attendence_date')
-                            ->orderBy('attendence_date')
-                            ->get()
-                            ->groupBy(function ($val) {
-                                return Carbon::parse($val->attendence_date)->format('m');
-                            });
-
-        if( request()->has(['type', 'month']) ) {
-            $type = request()->input('type');
-            $month = request()->input('month');
-
-            if($type == 'class') {
-                $attendances = Attendance::whereMonth('attendence_date', $month)
-                                     ->select('attendence_date','student_id','attendence_status','class_id')
-                                     ->orderBy('class_id','asc')
-                                     ->get()
-                                     ->groupBy(['class_id','attendence_date']);
-
-                return view('backend.attendance.index', compact('attendances','months'));
-
-            }
-            
-        }
-        $attendances = [];
-        
-        return view('backend.attendance.index', compact('attendances','months'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
-
-    public function createByTeacher($classid)
-    {
-        $class = Grade::with(['students','subjects','teacher'])->findOrFail($classid);
-
-        return view('backend.attendance.create', compact('class'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -70,51 +19,60 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        $classid    = $request->class_id;
-        $attenddate = date('Y-m-d');
+        foreach ($request->attendance as $attendanceData) {
+            // Check if there is already a record for the same class, student, and attendance date
+            $existingRecord = Attendance::where('class_id', $attendanceData['class_id'])
+                ->where('student_id', $attendanceData['student_id'])
+                ->where('attendence_date', $attendanceData['attendence_date'])
+                ->first();
 
-        $teacher = Teacher::findOrFail(auth()->user()->teacher->id);
-        $class   = Grade::find($classid);
-
-        if($teacher->id !== $class->teacher_id) {
-            return redirect()->route('teacher.attendance.create',$classid)
-                             ->with('status', 'You are not assign for this class attendence!');
-        }
-
-        $dataexist = Attendance::whereDate('attendence_date',$attenddate)
-                                ->where('class_id',$classid)
-                                ->get();
-
-        if (count($dataexist) !== 0 ) {
-            return redirect()->route('teacher.attendance.create',$classid)
-                             ->with('status', 'Attendance already taken!');
-        }
-
-        $request->validate([
-            'class_id'      => 'required|numeric',
-            'teacher_id'    => 'required|numeric',
-            'attendences'   => 'required'
-        ]);
-
-        foreach ($request->attendences as $studentid => $attendence) {
-
-            if( $attendence == 'present' ) {
-                $attendence_status = true;
-            } else if( $attendence == 'absent' ){
-                $attendence_status = false;
+            // If no record exists, create a new one
+            if (!$existingRecord) {
+                Attendance::create([
+                    'class_id'          => $attendanceData['class_id'],
+                    'student_id'        => $attendanceData['student_id'],
+                    'attendence_date'   => $attendanceData['attendence_date'],
+                    'attendence_status' => $attendanceData['attendence_status']
+                ]);
+            } else {
+                // Update the existing record if the status is different and 'attendence_status' is set in $attendanceData
+                if (isset($attendanceData['attendence_status']) && $existingRecord->attendence_status != $attendanceData['attendence_status']) {
+                    $existingRecord->attendence_status = $attendanceData['attendence_status'];
+                    $existingRecord->save();
+                }
             }
-
-            Attendance::create([
-                'class_id'          => $request->class_id,
-                'teacher_id'        => $request->teacher_id,
-                'student_id'        => $studentid,
-                'attendence_date'   => $attenddate,
-                'attendence_status' => $attendence_status
-            ]);
         }
 
-        return back();
+        return redirect()->route('classes.index');
     }
+
+
+    public function teacher_store(Request $request)
+    {
+        foreach ($request->attendance as $attendanceData) {
+
+            $existingRecord = Attendance::where('teacher_id', $attendanceData['teacher_id'])
+                ->where('attendence_date', $attendanceData['attendence_date'])
+                ->first();
+
+            if (!$existingRecord) {
+                Attendance::create([
+                    'teacher_id'        => $attendanceData['teacher_id'],
+                    'attendence_date'   => $attendanceData['attendence_date'],
+                    'attendence_status' => $attendanceData['attendence_status']
+                ]);
+            } else {
+
+                if (isset($attendanceData['attendence_status']) && $existingRecord->attendence_status != $attendanceData['attendence_status']) {
+                    $existingRecord->attendence_status = $attendanceData['attendence_status'];
+                    $existingRecord->save();
+                }
+            }
+        }
+
+        return redirect()->route('teacher.attends');
+    }
+
 
     /**
      * Display the specified resource.

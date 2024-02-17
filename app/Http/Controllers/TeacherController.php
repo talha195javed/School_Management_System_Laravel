@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Attendance;
+use App\FeeSubmittedDetails;
 use App\User;
 use App\Teacher;
 use Illuminate\Http\Request;
@@ -20,6 +22,14 @@ class TeacherController extends Controller
         $teachers = Teacher::with('user')->latest()->paginate(10);
 
         return view('backend.teachers.index', compact('teachers'));
+    }
+
+
+    public function attends()
+    {
+        $teachers = Teacher::with('user')->latest()->paginate(10);
+
+        return view('backend.teachers.attends', compact('teachers'));
     }
 
     /**
@@ -56,7 +66,7 @@ class TeacherController extends Controller
             'email'     => $request->email,
             'password'  => Hash::make($request->password)
         ]);
-        
+
         if ($request->hasFile('profile_picture')) {
             $profile = Str::slug($user->name).'-'.$user->id.'.'.$request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
@@ -72,7 +82,9 @@ class TeacherController extends Controller
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+            'permanent_address' => $request->permanent_address,
+            'certification_details' => $request->certification_details,
+            'qualification_details' => $request->qualification_details
         ]);
 
         $user->assignRole('Teacher');
@@ -101,7 +113,11 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::with('user')->findOrFail($teacher->id);
 
-        return view('backend.teachers.edit', compact('teacher'));
+        $payPaids = FeeSubmittedDetails::where('teacher_id', $teacher->id)->get();
+
+        $attendances = Attendance::where('teacher_id', $teacher->id)->get();
+
+        return view('backend.teachers.edit', compact('teacher', 'attendances', 'payPaids'));
     }
 
     /**
@@ -143,7 +159,9 @@ class TeacherController extends Controller
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+            'permanent_address' => $request->permanent_address,
+            'certification_details' => $request->certification_details,
+            'qualification_details' => $request->qualification_details
         ]);
 
         return redirect()->route('teacher.index');
@@ -160,7 +178,7 @@ class TeacherController extends Controller
         $user = User::findOrFail($teacher->user_id);
 
         $user->teacher()->delete();
-        
+
         $user->removeRole('Teacher');
 
         if ($user->delete()) {

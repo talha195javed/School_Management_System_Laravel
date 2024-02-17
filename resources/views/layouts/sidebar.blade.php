@@ -14,6 +14,9 @@
             <li>
                 <a href="{{ route('teacher.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-tie mr-2"></i><span class="text-sm font-semibold">Teachers</span></a>
             </li>
+            <li>
+                <a href="{{ route('teacher.attends') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-tie mr-2"></i><span class="text-sm font-semibold">Teachers Attends</span></a>
+            </li>
 {{--            <li>--}}
 {{--                <a href="{{ route('parents.index') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700"><i class="fas fa-user-friends mr-2"></i><span class="text-sm font-semibold">Parents</span></a>--}}
 {{--            </li>--}}

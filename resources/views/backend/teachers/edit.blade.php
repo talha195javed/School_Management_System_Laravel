@@ -14,7 +14,11 @@
                 </a>
             </div>
         </div>
-
+        <div class="mb-4">
+            <a href="{{ route('pay.creates', ['teacher_id' => $teacher->id]) }}" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded">
+                Add Pay Details
+            </a>
+        </div>
         <div class="table w-full mt-8 bg-white rounded">
             <form action="{{ route('teacher.update',$teacher->id) }}" method="POST" class="w-full max-w-xl px-6 py-12" enctype="multipart/form-data">
                 @csrf
@@ -130,6 +134,35 @@
                         @enderror
                     </div>
                 </div>
+
+                <div class="md:flex md:items-center mb-6">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                            Qualification Details
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <input name="qualification_details" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $teacher->qualification_details }}">
+                        @error('qualification_details')
+                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="md:flex md:items-center mb-6">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                            Certification Details
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <input name="certification_details" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $teacher->certification_details }}">
+                        @error('certification_details')
+                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
@@ -149,15 +182,94 @@
                         </button>
                     </div>
                 </div>
-            </form>        
+            </form>
         </div>
-        
     </div>
+
+    <div class="roles" style="padding-top: 5%; padding-bottom: 5%">
+        <h1 style="text-align: center; font-weight: bolder; font-size: 25px">Pay Details</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="pay">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Pay Month</th>
+                    <th>Pay Given</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $totalFee = 0;
+                @endphp
+                @foreach($payPaids as $payPaid)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $payPaid->month)->format('F Y') }}</td>
+                        <td>{{ $payPaid->pay_paid }}</td>
+                    </tr>
+                    @php
+                        $totalFee += $payPaid->pay_paid;
+                    @endphp
+                @endforeach
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Total Pay Paid</th>
+                    <td>{{ $totalFee }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-gray-700 uppercase font-bold" style="text-align: center">Attendance</h3>
+            </div>
+        </div>
+        <div class="accordion mt-4" id="accordionExample">
+            @foreach($attendances->groupBy(function($date) { return Carbon\Carbon::parse($date->attendence_date)->format('F Y'); }) as $month => $attendance)
+                <div class="card">
+                    <div class="card-header" id="heading{{ $loop->iteration }}">
+                        <h1 style="text-align: center" class="mb-0">
+                            <button class="btn btn-link " type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ $loop->iteration }}" aria-expanded="true"
+                                    aria-controls="collapse{{ $loop->iteration }}">
+                                {{ $month }}
+                            </button>
+                        </h1>
+                    </div>
+
+                    <div id="collapse{{ $loop->iteration }}" class="collapse {{ $loop->first ? 'show' : '' }}"
+                         aria-labelledby="heading{{ $loop->iteration }}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($attendance as $record)
+                                    <tr>
+                                        <td>{{ $record->attendence_date }}</td>
+                                        <td>{{ $record->attendence_status ? 'Present' : 'Absent' }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+
 @endsection
 
 @push('scripts')
 <script>
-    $(function() {       
+    $(function() {
         $( "#datepicker-te" ).datepicker({ dateFormat: 'yy-mm-dd' });
     })
 </script>

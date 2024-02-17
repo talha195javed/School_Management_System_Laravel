@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Attendance;
 use App\Grade;
+use App\Student;
 use App\Subject;
 use App\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -18,9 +21,33 @@ class GradeController extends Controller
     {
         $classes = Grade::withCount('students')->orderBy('id', 'desc')->paginate(10);
 
-
         return view('backend.classes.index', compact('classes'));
     }
+
+    public function attends($id)
+    {
+        $class = Grade::findOrFail($id); // Assuming Class is your model for classes
+
+        $students = $class->students()->with('user')->paginate(10);
+
+        return view('backend.attendance.index', compact('class', 'students' ));
+    }
+
+    public function attends_view($id)
+    {
+        $class = Grade::findOrFail($id);
+
+        $students = $class->students()->with('user')->paginate(10);
+
+        $attendances = Attendance::where('class_id', $id)
+            ->whereMonth('attendence_date', now()->month)
+            ->with(['student', 'teacher.user', 'class'])
+            ->get();
+
+        return view('backend.attendance.show', compact('class', 'students', 'attendances'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

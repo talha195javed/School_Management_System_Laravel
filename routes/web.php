@@ -11,9 +11,12 @@
 |
 */
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DiaryExpensesController;
 use App\Http\Controllers\FeeSubmittedDetailController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\StationaryChargeController;
+use App\Http\Controllers\TeacherController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -80,7 +83,23 @@ Route::delete('/day-book-delete/{id}', [DiaryExpensesController::class, 'destroy
 
 Route::get('/fee-submitted-create/{student_id}', [FeeSubmittedDetailController::class, 'create'])->name('fee.creates');
 
+Route::get('/pay-submitted-create/{teacher_id}', [FeeSubmittedDetailController::class, 'pay_create'])->name('pay.creates');
+
+Route::get('/attends/{class_id}', [GradeController::class, 'attends'])->name('classes.attends');
+
+Route::get('/teacher_attends', [TeacherController::class, 'attends'])->name('teacher.attends');
+
+Route::get('/attends_view/{class_id}', [GradeController::class, 'attends_view'])->name('classes.attends_view');
+
+
+
+Route::post('/attends/save', [AttendanceController::class, 'store'])->name('attendance.save');
+
+Route::post('/attends/save', [AttendanceController::class, 'teacher_store'])->name('teacher_attendance.save');
+
 Route::post('/fee-submitted-details', [FeeSubmittedDetailController::class, 'store'])->name('fee.store');
+
+Route::post('/pay-submitted-details', [FeeSubmittedDetailController::class, 'paystore'])->name('pay.store');
 
 Route::put('/fee-submitted-details/{feeSubmittedDetail}', [FeeSubmittedDetailController::class, 'edit']);
 
