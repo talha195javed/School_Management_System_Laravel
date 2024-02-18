@@ -19,7 +19,7 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $classes = Grade::withCount('students')->orderBy('id', 'desc')->paginate(10);
+        $classes = Grade::withCount('students')->orderBy('id', 'desc')->paginate(50);
 
         return view('backend.classes.index', compact('classes'));
     }
@@ -28,7 +28,7 @@ class GradeController extends Controller
     {
         $class = Grade::findOrFail($id); // Assuming Class is your model for classes
 
-        $students = $class->students()->with('user')->paginate(10);
+        $students = $class->students()->with('user')->paginate(50);
 
         return view('backend.attendance.index', compact('class', 'students' ));
     }
@@ -37,7 +37,7 @@ class GradeController extends Controller
     {
         $class = Grade::findOrFail($id);
 
-        $students = $class->students()->with('user')->paginate(10);
+        $students = $class->students()->with('user')->paginate(50);
 
         $attendances = Attendance::where('class_id', $id)
             ->whereMonth('attendence_date', now()->month)

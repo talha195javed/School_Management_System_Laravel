@@ -13,7 +13,10 @@
                 </a>
             </div>
         </div>
-        <table class="table mt-4">
+        <div class="mt-4">
+            <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control" placeholder="Search for Class Name">
+        </div>
+        <table class="table mt-4" id="classesTable">
             <thead>
             <tr>
                 <th>ID#</th>
@@ -67,4 +70,29 @@
             {{ $classes->links() }}
         </div>
     </div>
+
+    <script>
+        function searchTable() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("classesTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Column index for 'Name' column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
 @endsection

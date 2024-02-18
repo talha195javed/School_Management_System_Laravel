@@ -18,8 +18,8 @@ class ParentsController extends Controller
      */
     public function index()
     {
-        $parents = Parents::with(['user','children'])->latest()->paginate(10);
-        
+        $parents = Parents::with(['user','children'])->latest()->paginate(50);
+
         return view('backend.parents.index', compact('parents'));
     }
 
@@ -56,7 +56,7 @@ class ParentsController extends Controller
             'email'     => $request->email,
             'password'  => Hash::make($request->password)
         ]);
-        
+
         if ($request->hasFile('profile_picture')) {
             $profile = Str::slug($user->name).'-'.$user->id.'.'.$request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
@@ -98,7 +98,7 @@ class ParentsController extends Controller
      */
     public function edit($id)
     {
-        $parent = Parents::with('user')->findOrFail($id); 
+        $parent = Parents::with('user')->findOrFail($id);
 
         return view('backend.parents.edit', compact('parent'));
     }

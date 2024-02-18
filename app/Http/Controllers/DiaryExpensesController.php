@@ -35,13 +35,13 @@ class DiaryExpensesController extends Controller
             ->whereMonth('created_at', $currentMonth)
             ->whereYear('created_at', $currentYear)
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate(50);
 
         $expenses = DiaryExpenses::where('type', 2)
             ->whereMonth('created_at', $currentMonth)
             ->whereYear('created_at', $currentYear)
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate(50);
 
         return view('backend.expenseDiary.index', compact('incomes', 'expenses', 'fees', 'stationary'));
     }
