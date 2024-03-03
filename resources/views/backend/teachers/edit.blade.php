@@ -14,11 +14,7 @@
                 </a>
             </div>
         </div>
-        <div class="mb-4">
-            <a href="{{ route('pay.creates', ['teacher_id' => $teacher->id]) }}" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded">
-                Add Pay Details
-            </a>
-        </div>
+
         <div class="table w-full mt-8 bg-white rounded">
             <form action="{{ route('teacher.update',$teacher->id) }}" method="POST" class="w-full max-w-xl px-6 py-12" enctype="multipart/form-data">
                 @csrf
@@ -188,11 +184,18 @@
 
     <div class="roles" style="padding-top: 5%; padding-bottom: 5%">
         <h1 style="text-align: center; font-weight: bolder; font-size: 25px">Pay Details</h1>
+        <div style="text-align: right; padding-bottom: 15px !important;">
+            <a href="{{ route('pay.creates', ['teacher_id' => $teacher->id]) }}" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded">
+                Add Pay Details
+            </a>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover" id="pay">
                 <thead class="thead-dark">
                 <tr>
                     <th>Pay Month</th>
+                    <th>Pay Date</th>
                     <th>Pay Given</th>
                 </tr>
                 </thead>
@@ -203,19 +206,12 @@
                 @foreach($payPaids as $payPaid)
                     <tr>
                         <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $payPaid->month)->format('F Y') }}</td>
+                        <td>{{ $payPaid->created_at->format('d F Y') }}</td>
                         <td>{{ $payPaid->pay_paid }}</td>
                     </tr>
-                    @php
-                        $totalFee += $payPaid->pay_paid;
-                    @endphp
                 @endforeach
                 </tbody>
-                <tfoot>
-                <tr>
-                    <th>Total Pay Paid</th>
-                    <td>{{ $totalFee }}</td>
-                </tr>
-                </tfoot>
+
             </table>
         </div>
     </div>
@@ -251,7 +247,7 @@
                                 <tbody>
                                 @foreach($attendance as $record)
                                     <tr>
-                                        <td>{{ $record->attendence_date }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($record->attendence_date)->format('d F Y') }}</td>
                                         <td>{{ $record->attendence_status ? 'Present' : 'Absent' }}</td>
                                     </tr>
                                 @endforeach

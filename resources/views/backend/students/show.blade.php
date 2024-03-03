@@ -195,6 +195,10 @@
                     <tr>
                         <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $feeSubmittedDetail->month)->format('F Y') }}</td>
                         <td>{{ $feeSubmittedDetail->fee_submitted }}</td>
+                        <td>
+                            <label><input type="radio" name="status[{{ $feeSubmittedDetail->id }}]" value="paid"> Paid</label>
+                            <label><input type="radio" name="status[{{ $feeSubmittedDetail->id }}]" value="unpaid"> Unpaid</label>
+                        </td>
                     </tr>
                     @php
                         $totalFee += $feeSubmittedDetail->fee_submitted;
@@ -205,6 +209,7 @@
                 <tr>
                     <th>Total</th>
                     <td>{{ $totalFee }}</td>
+                    <td></td>
                 </tr>
                 </tfoot>
             </table>
@@ -217,6 +222,7 @@
                 <tr>
                     <th>Stationary Details</th>
                     <th>Charges Submitted</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>

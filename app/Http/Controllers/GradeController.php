@@ -26,7 +26,7 @@ class GradeController extends Controller
 
     public function attends($id)
     {
-        $class = Grade::findOrFail($id); // Assuming Class is your model for classes
+        $class = Grade::findOrFail($id);
 
         $students = $class->students()->with('user')->paginate(50);
 

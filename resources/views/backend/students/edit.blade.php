@@ -290,11 +290,15 @@
                         <div class="flex flex-row items-center">
                             <label class="block text-gray-500 font-bold">
                                 <input name="certificate" class="mr-2 leading-tight" type="radio" value="1" {{ ($student->certificate == '1') ? 'checked' : '' }}>
-                                <span class="text-sm">Collected</span>
+                                <span class="text-sm">Delivered</span>
+                            </label>
+                            <label class="block text-gray-500 font-bold">
+                                <input name="certificate" class="mr-2 leading-tight" type="radio" value="1" {{ ($student->certificate == '1') ? 'checked' : '' }}>
+                                <span class="text-sm">Received</span>
                             </label>
                             <label class="ml-4 block text-gray-500 font-bold">
                                 <input name="certificate" class="mr-2 leading-tight" type="radio" value="0" {{ ($student->certificate == '0') ? 'checked' : '' }}>
-                                <span class="text-sm">Not Collected</span>
+                                <span class="text-sm">Not Received</span>
                             </label>
                         </div>
                         @error('certificate')
@@ -319,6 +323,8 @@
                 <tr>
                     <th>Fee Month</th>
                     <th>Fee Submitted</th>
+                    <th>Submission Date</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -329,6 +335,19 @@
                     <tr>
                         <td>{{ \Carbon\Carbon::createFromFormat('Y-m', $feeSubmittedDetail->month)->format('F Y') }}</td>
                         <td>{{ $feeSubmittedDetail->fee_submitted }}</td>
+                        <td>{{ $feeSubmittedDetail->created_at->format('d-m-Y') }}</td>
+                        <td>
+                            <a href="{{ route('fee.edit', $feeSubmittedDetail->id) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="{{ route('fee.destroy', $feeSubmittedDetail->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                            </td>
                     </tr>
                     @php
                         $totalFee += $feeSubmittedDetail->fee_submitted;
@@ -339,6 +358,7 @@
                 <tr>
                     <th>Total</th>
                     <td>{{ $totalFee }}</td>
+                    <td></td>
                 </tr>
                 </tfoot>
             </table>
@@ -351,6 +371,7 @@
                 <tr>
                     <th>Stationary Details</th>
                     <th>Charges Submitted</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>

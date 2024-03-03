@@ -27,7 +27,11 @@
                             @foreach ($attendances as $attendance)
                                 <tr>
                                     <td>{{ $attendance->attendence_date }}</td>
-                                    <td>{{ $attendance->student->user->name }}</td>
+                                    <td>
+                                        <a href="{{ route('student.edit', $attendance->student->user->id) }}">
+                                            {{ $attendance->student->user->name }}
+                                        </a>
+                                    </td>
                                     <td style="color: black">
                                         @if ($attendance->attendence_status)
                                             <span>Present</span>

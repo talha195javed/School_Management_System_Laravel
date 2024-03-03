@@ -17,6 +17,7 @@ use App\Http\Controllers\FeeSubmittedDetailController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\StationaryChargeController;
 use App\Http\Controllers\TeacherController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -93,9 +94,9 @@ Route::get('/attends_view/{class_id}', [GradeController::class, 'attends_view'])
 
 
 
-Route::post('/attends/save', [AttendanceController::class, 'store'])->name('attendance.save');
+Route::post('students/attends/save', [AttendanceController::class, 'store'])->name('attendance.save');
 
-Route::post('/attends/save', [AttendanceController::class, 'teacher_store'])->name('teacher_attendance.save');
+Route::post('teachers/attends/save', [AttendanceController::class, 'teacher_store'])->name('teacher_attendance.save');
 
 Route::post('/fee-submitted-details', [FeeSubmittedDetailController::class, 'store'])->name('fee.store');
 
