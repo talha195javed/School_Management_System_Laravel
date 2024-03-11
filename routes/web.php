@@ -17,11 +17,15 @@ use App\Http\Controllers\FeeSubmittedDetailController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\StationaryChargeController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\WebPageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/login');
-});
+//Route::get('/', function () {
+//    return redirect('/login');
+//});
+
+Route::get('/', [WebPageController::class, 'website']);
+
 
 Auth::routes();
 

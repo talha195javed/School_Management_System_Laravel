@@ -2656,7 +2656,7 @@ object {
 
 img,
 video {
-  max-width: 100%;
+  /*max-width: 100%;*/
   height: auto;
 }
 
@@ -8077,6 +8077,14 @@ video {
 
 .text-gray-600{
   color: #718096;
+}
+
+.text-white-600{
+    color: white;
+}
+
+.text_color_white {
+    color: white;
 }
 
 .text-gray-700{
