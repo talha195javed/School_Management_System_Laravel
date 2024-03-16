@@ -477,6 +477,7 @@ class ComposerStaticInitdf794f7209faa1890fcb7ba74682a9ac
     public static $classMap = array (
         'App\\Attendance' => __DIR__ . '/../..' . '/app/Attendance.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Diary' => __DIR__ . '/../..' . '/app/Diary.php',
         'App\\DiaryExpenses' => __DIR__ . '/../..' . '/app/DiaryExpenses.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\FeeSubmittedDetails' => __DIR__ . '/../..' . '/app/FeeSubmittedDetails.php',
@@ -500,6 +501,7 @@ class ComposerStaticInitdf794f7209faa1890fcb7ba74682a9ac
         'App\\Http\\Controllers\\StudentController' => __DIR__ . '/../..' . '/app/Http/Controllers/StudentController.php',
         'App\\Http\\Controllers\\SubjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/SubjectController.php',
         'App\\Http\\Controllers\\TeacherController' => __DIR__ . '/../..' . '/app/Http/Controllers/TeacherController.php',
+        'App\\Http\\Controllers\\WebPageController' => __DIR__ . '/../..' . '/app/Http/Controllers/WebPageController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',

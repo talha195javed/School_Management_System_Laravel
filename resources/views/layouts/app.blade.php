@@ -20,35 +20,35 @@
 
 </head>
 <body class="bg-gray-100 font-sans antialiased">
-    <div id="app">
+<div id="app">
 
-        @include('layouts.navbar')
+    @include('layouts.navbar')
 
-        <div class="main flex flex-wrap justify-end mt-16">
+    <div class="main flex flex-wrap justify-end mt-16">
 
-            @include('layouts.sidebar')
+        @include('layouts.sidebar')
 
-            <div class="content w-full sm:w-5/6">
-                <div class="container mx-auto p-4 sm:p-6">
+        <div class="content w-full sm:w-5/6">
+            <div class="container mx-auto p-4 sm:p-6">
 
-                    @yield('content')
+                @yield('content')
 
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 
-    <script>
-        $(function() {
-            $( "#opennavdropdown" ).on( "click", function() {
-                $( "#navdropdown" ).toggleClass( "hidden" );
-            })
+<script>
+    $(function() {
+        $( "#opennavdropdown" ).on( "click", function() {
+            $( "#navdropdown" ).toggleClass( "hidden" );
         })
-    </script>
+    })
+</script>
 
-    @stack('scripts')
+@stack('scripts')
 
 </body>
 </html>

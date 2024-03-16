@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Attendance;
+use App\Diary;
 use App\Grade;
 use App\Student;
 use App\Subject;
@@ -37,6 +38,8 @@ class GradeController extends Controller
     {
         $class = Grade::findOrFail($id);
 
+        $diaries = Diary::findDiary($id);
+
         $students = $class->students()->with('user')->paginate(50);
 
         $attendances = Attendance::where('class_id', $id)
@@ -44,7 +47,7 @@ class GradeController extends Controller
             ->with(['student', 'teacher.user', 'class'])
             ->get();
 
-        return view('backend.attendance.show', compact('class', 'students', 'attendances'));
+        return view('backend.attendance.show', compact('class', 'students', 'attendances', 'diaries'));
     }
 
 
@@ -176,5 +179,35 @@ class GradeController extends Controller
         $class->subjects()->sync($request->selectedsubjects);
 
         return redirect()->route('classes.index');
+    }
+
+    public function imageUpload()
+    {
+        return view('imageUpload');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function imageUploadPost(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time().'.'.$request->image->extension();
+
+        $request->image->move(public_path('images'), $imageName);
+
+        $diary = new Diary();
+        $diary->image_name = $imageName;
+        $diary->class_id = $request->class_id;
+        $diary->save();
+
+        return back()
+            ->with('success','You have successfully upload image.')
+            ->with('image',$imageName);
     }
 }

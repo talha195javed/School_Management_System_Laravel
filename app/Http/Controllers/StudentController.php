@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Attendance;
+use App\Diary;
 use App\FeeSubmittedDetails;
 use App\StationaryCharge;
 use App\User;
@@ -23,6 +24,7 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
+        $shift_type = $request->shift;
         $studentsQuery = Student::with('class')->latest();
 
         if ($request->has('shift')) {
@@ -36,7 +38,7 @@ class StudentController extends Controller
         }
 
         $students = $studentsQuery->paginate(50);
-        return view('backend.students.index', compact('students'));
+        return view('backend.students.index', compact('students', 'shift_type'));
     }
 
     /**
@@ -44,12 +46,13 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $shift_type = $request->shift;
         $classes = Grade::latest()->get();
         $parents = Parents::with('user')->latest()->get();
 
-        return view('backend.students.create', compact('classes','parents'));
+        return view('backend.students.create', compact('classes','parents', 'shift_type'));
     }
 
     /**
@@ -61,24 +64,23 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'              => 'required|string|max:255',
-            'email'             => 'required|string|email|max:255|unique:users',
-            'password'          => 'required|string|min:8',
-//            'parent_id'         => 'required|numeric',
-            'class_id'          => 'required|numeric',
-            'roll_number'       => [
-                'required',
-                'numeric',
-                Rule::unique('students')->where(function ($query) use ($request) {
-                    return $query->where('class_id', $request->class_id);
-                })
-            ],
-            'gender'            => 'required|string',
-            'shift'            => 'required|string',
-            'phone'             => 'required|string|max:255',
-            'dateofbirth'       => 'required|date',
-            'current_address'   => 'required|string|max:255',
-            'permanent_address' => 'required|string|max:255'
+//            'name'              => 'required|string|max:255',
+//            'email'             => 'required|string|email|max:255|unique:users',
+//            'password'          => 'required|string|min:8',
+//            'class_id'          => 'required|numeric',
+//            'roll_number'       => [
+//                'required',
+//                'numeric',
+//                Rule::unique('students')->where(function ($query) use ($request) {
+//                    return $query->where('class_id', $request->class_id);
+//                })
+//            ],
+//            'gender'            => 'required|string',
+//            'shift'            => 'required|string',
+//            'phone'             => 'required|string|max:255',
+//            'dateofbirth'       => 'required|date',
+//            'current_address'   => 'required|string|max:255',
+//            'permanent_address' => 'required|string|max:255'
         ]);
 
         $user = User::create([
@@ -98,7 +100,16 @@ class StudentController extends Controller
         ]);
 
         $user->student()->create([
-            'parent_id'         => $request->parent_id,
+            'admission_id'         => $request->admission_id,
+            'admission_date'         => $request->admission_date,
+            'father_name'         => $request->father_name,
+            'cnic'         => $request->cnic,
+            'father_cnic'         => $request->father_cnic,
+            'guardian_name'         => $request->guardian_name,
+            'religion'         => $request->religion,
+            'mobile'         => $request->mobile,
+            'father_profession'         => $request->father_profession,
+            'driver_number'         => $request->driver_number,
             'class_id'          => $request->class_id,
             'roll_number'       => $request->roll_number,
             'gender'            => $request->gender,
@@ -107,7 +118,9 @@ class StudentController extends Controller
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+            'permanent_address' => $request->permanent_address,
+            'fee_decided' => $request->fee_decided,
+            'stationary_decided' => $request->stationary_decided,
         ]);
 
         $user->assignRole('Student');
@@ -123,6 +136,8 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
+        $diaries = Diary::findDiary($student->class_id);
+
         $class = Grade::with('subjects')->where('id', $student->class_id)->first();
 
         $feeSubmittedDetails = FeeSubmittedDetails::where('student_id', $student->id)->get();
@@ -131,7 +146,7 @@ class StudentController extends Controller
 
         $attendances = Attendance::where('student_id', $student->id)->get();
 
-        return view('backend.students.show', compact('class', 'student', 'feeSubmittedDetails', 'stationaryCharges', 'attendances'));
+        return view('backend.students.show', compact('class', 'student', 'feeSubmittedDetails', 'stationaryCharges', 'attendances', 'diaries'));
     }
 
     /**
@@ -163,23 +178,23 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $request->validate([
-            'name'              => 'required|string|max:255',
-            'email'             => 'required|string|email|max:255|unique:users,email,'.$student->user_id,
-//            'parent_id'         => 'required|numeric',
-            'class_id'          => 'required|numeric',
-            'roll_number'       => [
-                'required',
-                'numeric',
-                Rule::unique('students')->ignore($student->id)->where(function ($query) use ($request) {
-                    return $query->where('class_id', $request->class_id);
-                })
-            ],
-            'gender'            => 'required|string',
-            'shift'            => 'required|string',
-            'phone'             => 'required|string|max:255',
-            'dateofbirth'       => 'required|date',
-            'current_address'   => 'required|string|max:255',
-            'permanent_address' => 'required|string|max:255'
+//            'name'              => 'required|string|max:255',
+//            'email'             => 'required|string|email|max:255|unique:users,email,'.$student->user_id,
+////            'parent_id'         => 'required|numeric',
+//            'class_id'          => 'required|numeric',
+//            'roll_number'       => [
+//                'required',
+//                'numeric',
+//                Rule::unique('students')->ignore($student->id)->where(function ($query) use ($request) {
+//                    return $query->where('class_id', $request->class_id);
+//                })
+//            ],
+//            'gender'            => 'required|string',
+//            'shift'            => 'required|string',
+//            'phone'             => 'required|string|max:255',
+//            'dateofbirth'       => 'required|date',
+//            'current_address'   => 'required|string|max:255',
+//            'permanent_address' => 'required|string|max:255'
         ]);
 
         if ($request->hasFile('profile_picture')) {
@@ -196,18 +211,29 @@ class StudentController extends Controller
         ]);
 
         $student->update([
-            'parent_id'         => $request->parent_id,
+            'admission_id'         => $request->admission_id,
+            'admission_date'         => $request->admission_date,
+            'father_name'         => $request->father_name,
+            'cnic'         => $request->cnic,
+            'father_cnic'         => $request->father_cnic,
+            'guardian_name'         => $request->guardian_name,
+            'religion'         => $request->religion,
+            'mobile'         => $request->mobile,
+            'father_profession'         => $request->father_profession,
+            'driver_number'         => $request->driver_number,
             'class_id'          => $request->class_id,
             'roll_number'       => $request->roll_number,
             'gender'            => $request->gender,
-            'shift'            => $request->shift,
-            'result_card'       => $request->result_card,
-            'certificate'       => $request->certificate,
+            'shift'             => $request->shift,
             'status'            => $request->status,
             'phone'             => $request->phone,
             'dateofbirth'       => $request->dateofbirth,
             'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
+            'permanent_address' => $request->permanent_address,
+            'fee_decided' => $request->fee_decided,
+            'stationary_decided' => $request->stationary_decided,
+            'result_card'       => $request->result_card,
+            'certificate'       => $request->certificate
         ]);
 
         return redirect()->route('student.index');

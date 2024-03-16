@@ -121,46 +121,46 @@
                         <span class="text-gray-600 font-bold">{{ $student->class->class_name }}</span>
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Student Parent :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->user->name }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Parent Email :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->user->email }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Parent Phone :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->phone }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Parent Address :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->parent->current_address }}</span>
-                    </div>
-                </div>
+{{--                <div class="md:flex md:items-center mb-6">--}}
+{{--                    <div class="md:w-1/3">--}}
+{{--                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">--}}
+{{--                            Student Parent :--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                    <div class="md:w-2/3 block text-gray-600 font-bold">--}}
+{{--                        <span class="text-gray-600 font-bold">{{ $student->parent->user->name }}</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="md:flex md:items-center mb-6">--}}
+{{--                    <div class="md:w-1/3">--}}
+{{--                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">--}}
+{{--                            Parent Email :--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                    <div class="md:w-2/3 block text-gray-600 font-bold">--}}
+{{--                        <span class="text-gray-600 font-bold">{{ $student->parent->user->email }}</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="md:flex md:items-center mb-6">--}}
+{{--                    <div class="md:w-1/3">--}}
+{{--                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">--}}
+{{--                            Parent Phone :--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                    <div class="md:w-2/3 block text-gray-600 font-bold">--}}
+{{--                        <span class="text-gray-600 font-bold">{{ $student->parent->phone }}</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="md:flex md:items-center mb-6">--}}
+{{--                    <div class="md:w-1/3">--}}
+{{--                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">--}}
+{{--                            Parent Address :--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                    <div class="md:w-2/3 block text-gray-600 font-bold">--}}
+{{--                        <span class="text-gray-600 font-bold">{{ $student->parent->current_address }}</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 {{--                <div class="w-full px-0 md:px-6 py-12">--}}
                 {{--                    <div class="flex items-center bg-gray-200">--}}
@@ -293,6 +293,59 @@
         </div>
     </div>
 
+    <h1>Diary Data</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Class ID</th>
+            <th>Diary Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($diaries as $entry)
+            <tr>
+                <td>{{ $entry->id }}</td>
+                <td><img class="thumbnail" src="{{ asset('images/' . $entry->image_name) }}" alt="Image" width="100"></td>
+                <td>{{ $entry->class_id }}</td>
+                <td>{{ $entry->created_at->format('d-M-Y') }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+
+    <style>
+        /* Define your blue and red theme styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table tr:hover {
+            background-color: #ddd;
+        }
+        .thumbnail {
+            cursor: pointer;
+        }
+    </style>
     <style>
         .accordion {
             width: 100%;
@@ -337,5 +390,11 @@
             background-color: #e9ecef; /* Lighter gray background for table header */
         }
     </style>
-
+    <script>
+        document.querySelectorAll('.thumbnail').forEach(item => {
+            item.addEventListener('click', event => {
+                window.open(item.getAttribute('src'), '_blank');
+            });
+        });
+    </script>
 @endsection

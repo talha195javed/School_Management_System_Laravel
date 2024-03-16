@@ -96,6 +96,9 @@ Route::get('/teacher_attends', [TeacherController::class, 'attends'])->name('tea
 
 Route::get('/attends_view/{class_id}', [GradeController::class, 'attends_view'])->name('classes.attends_view');
 
+Route::get('image-upload', [ GradeController::class, 'imageUpload' ])->name('image.upload');
+Route::post('image-upload', [ GradeController::class, 'imageUploadPost' ])->name('image.upload.post');
+
 
 
 Route::post('students/attends/save', [AttendanceController::class, 'store'])->name('attendance.save');

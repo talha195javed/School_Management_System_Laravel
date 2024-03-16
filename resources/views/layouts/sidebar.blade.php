@@ -26,7 +26,7 @@
             <li>
                 <span class="flex items-center text-white-600 py-2 hover:text-red-700 cursor-pointer toggle-options" style="color: rgb(18 134 255)" id="toggleOptions">
                     <i class="fas fa-user-graduate mr-2"></i>
-                    <span class="text-sm font-semibold">Students</span>
+                    <span class="text-sm font-semibold"> School Students</span>
                     <i class="fas fa-chevron-down ml-auto"></i>
                 </span>
                 <ul class="pl-4 hidden" id="optionsList">
@@ -37,15 +37,26 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('student.index', ['shift' => 'academy', 'status' => 1]) }}" class="flex items-center text-white-600 py-2 hover:text-red-700">
-                            <i class="fas fa-university mr-2"></i>
-                            <span class="text-sm font-semibold">Academy Students</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ route('student.index', ['shift' => 'school', 'status' => 0]) }}" class="flex items-center text-white-600 py-2 hover:text-red-700">
                             <i class="fas fa-school mr-2"></i>
                             <span class="text-sm font-semibold">Inactive School Students</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @if(Auth::check() && Auth::user()->id == 1)
+            <li>
+                <span class="flex items-center text-white-600 py-2 hover:text-red-700 cursor-pointer toggle-options" style="color: rgb(18 134 255)" id="toggleOptionsAcademy">
+                    <i class="fas fa-user-graduate mr-2"></i>
+                    <span class="text-sm font-semibold"> Academy Students</span>
+                    <i class="fas fa-chevron-down ml-auto"></i>
+                </span>
+                <ul class="pl-4 hidden" id="optionsListAcademy">
+
+                    <li>
+                        <a href="{{ route('student.index', ['shift' => 'academy', 'status' => 1]) }}" class="flex items-center text-white-600 py-2 hover:text-red-700">
+                            <i class="fas fa-university mr-2"></i>
+                            <span class="text-sm font-semibold">Academy Students</span>
                         </a>
                     </li>
                     <li>
@@ -56,6 +67,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
 {{--            <li>--}}
 {{--                <a href="{{ route('attendance.index') }}" class="flex items-center text-white-600 py-2 hover:text-red-700"><i class="far fa-calendar-check mr-2"></i><span class="text-sm font-semibold">Attendance</span></a>--}}
 {{--            </li>--}}
@@ -79,6 +91,16 @@
 
         toggleOptions.addEventListener("click", function () {
             optionsList.classList.toggle("hidden");
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleOptionsAcademy = document.getElementById("toggleOptionsAcademy");
+        const optionsListAcademy = document.getElementById("optionsListAcademy");
+
+        toggleOptionsAcademy.addEventListener("click", function () {
+            optionsListAcademy.classList.toggle("hidden");
         });
     });
 </script>

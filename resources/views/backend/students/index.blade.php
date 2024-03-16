@@ -7,7 +7,7 @@
                 <h2 class="text-gray-700 uppercase font-bold">Students</h2>
             </div>
             <div class="col-md-6 text-right">
-                <a href="{{ route('student.create') }}" class="btn btn-outline-primary">
+                <a href="{{ route('student.create', ['shift' => $shift_type]) }}" class="btn btn-outline-primary">
                     <i class="fas fa-plus"></i>
                     <span class="ml-2">Student</span>
                 </a>
