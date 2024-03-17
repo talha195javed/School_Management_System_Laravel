@@ -1,111 +1,427 @@
 
+<h1 style="text-align: center">Your Diary for Current Week</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Diary Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach($diaries as $entry)
+        <tr>
+            <td>{{ $entry->id }}</td>
+            <td><img class="thumbnail" src="{{ asset('images/' . $entry->image_name) }}" alt="Image" width="100"></td>
+            <td>{{ $entry->created_at->format('d-M-Y') }}</td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-gray-700 uppercase font-bold">Student Details</h2>
             </div>
         </div>
 
-        <div class="mt-8 bg-white rounded">
-            <div class="w-full max-w-2xl px-6 py-12">
-
+        <div class="table w-full mt-8 bg-white rounded" style="background-color: lightgrey !important;" id="myDiv">
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3"></div>
                     <div class="md:w-2/3">
-                        <img class="w-20 h-20 sm:w-32 sm:h-32 rounded"
-                             src="{{ asset('images/profile/' .$student->user->profile_picture) }}" alt="avatar">
+                        <img class="w-20 h-20 sm:w-32 sm:h-32 rounded" src="{{ asset('images/profile/' .$student->user->profile_picture) }}" alt="avatar">
                     </div>
                 </div>
+
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Name :
+                            Status
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <span class="block text-gray-600 font-bold">{{ $student->user->name }}</span>
+                        <div class="flex flex-row items-center">
+                            <label class="block text-gray-500 font-bold">
+                                <input name="status" class="mr-2 leading-tight" type="radio" value="1" {{ ($student->status == '1') ? 'checked' : '' }}>
+                                <span class="text-sm">Active</span>
+                            </label>
+                            <label class="ml-4 block text-gray-500 font-bold">
+                                <input name="status" class="mr-2 leading-tight" type="radio" value="0" {{ ($student->status == '0') ? 'checked' : '' }}>
+                                <span class="text-sm">Inactive</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Admission #
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="admission_id"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->admission_id }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Admission Date
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="admission_date"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="date" value="{{ $student->admission_date }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Name
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="name"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->user->name }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Father Name
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="father_name"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->father_name }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Class of Admission
+                            </label>
+                        </div>
+                        <div class="md:w-2/3 block text-gray-600 font-bold">
+                            <div class="relative">
+                                <input name="father_name"
+                                       class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                       type="text" value="{{ $class->class_name }}">
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Date of Birth
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="dateofbirth"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="date" value="{{ $student->dateofbirth }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Bay Form
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="cnic"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->cnic }}" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Father CNIC
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="father_cnic"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->father_cnic }}" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Guardian Name
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="guardian_name"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->guardian_name }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Religion
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="religion"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->religion }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Phone
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="phone"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->phone }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Mobile Number
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="mobile"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->mobile }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Profession of Father
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="father_profession"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->father_profession }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Driver Mobile Number
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="driver_number"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->driver_number }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Login ID
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="email"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="email" value="{{ $student->user->email }}">
+                        </div>
+                    </div>
+                    @if(Auth::check() && Auth::user()->id == 1)
+                        <div class="md:w-1/2 md:flex md:items-center mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                    Update Password
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input name="password"
+                                       class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                       type="text" value="{{ $student->user->password_set }}">
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Roll Number
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="roll_number"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="number" value="{{ $student->roll_number }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Gender
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <div class="flex flex-row items-center">
+                                <label class="block text-gray-500 font-bold">
+                                    <input name="gender" class="mr-2 leading-tight" type="radio" value="male" {{ ($student->gender == 'male') ? 'checked' : '' }}>
+                                    <span class="text-sm">Male</span>
+                                </label>
+                                <label class="ml-4 block text-gray-500 font-bold">
+                                    <input name="gender" class="mr-2 leading-tight" type="radio" value="female" {{ ($student->gender == 'female') ? 'checked' : '' }}>
+                                    <span class="text-sm">Female</span>
+                                </label>
+                                <label class="ml-4 block text-gray-500 font-bold">
+                                    <input name="gender" class="mr-2 leading-tight" type="radio" value="other" {{ ($student->gender == 'other') ? 'checked' : '' }}>
+                                    <span class="text-sm">Other</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Current Address
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="current_address"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->current_address }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Permanent Address
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="permanent_address"
+                                   id="permanent_address"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->permanent_address }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Fee Decided
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="fee_decided"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="number" step="1" value="{{ $student->fee_decided }}">
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Stationary Charges Decided
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="stationary_decided"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="number" step="1" value="{{ $student->stationary_decided }}">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Email :
+                            Result Card Status
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->user->email }}</span>
+                        <div class="flex flex-row items-center">
+                            <label class="block text-gray-500 font-bold">
+                                <input name="result_card" class="mr-2 leading-tight" type="radio" value="1" {{ ($student->result_card == '1') ? 'checked' : '' }}>
+                                <span class="text-sm">Collected</span>
+                            </label>
+                            <label class="ml-4 block text-gray-500 font-bold">
+                                <input name="result_card" class="mr-2 leading-tight" type="radio" value="0" {{ ($student->result_card == '0') ? 'checked' : '' }}>
+                                <span class="text-sm">Not Collected</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
+
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Roll Number :
+                            Certificate Status
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->roll_number }}</span>
+                        <div class="flex flex-row items-center">
+                            <label class="block text-gray-500 font-bold">
+                                <input name="certificate" class="mr-2 leading-tight" type="radio" value="1" {{ ($student->certificate == '1') ? 'checked' : '' }}>
+                                <span class="text-sm">Delivered</span>
+                            </label>
+                            <label class="block text-gray-500 font-bold">
+                                <input name="certificate" class="mr-2 leading-tight" type="radio" value="1" {{ ($student->certificate == '1') ? 'checked' : '' }}>
+                                <span class="text-sm">Received</span>
+                            </label>
+                            <label class="ml-4 block text-gray-500 font-bold">
+                                <input name="certificate" class="mr-2 leading-tight" type="radio" value="0" {{ ($student->certificate == '0') ? 'checked' : '' }}>
+                                <span class="text-sm">Not Received</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Phone :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->phone }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Gender :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->gender }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Date of Birth :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->dateofbirth }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Current Address :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->current_address }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Permanent Address :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <span class="text-gray-600 font-bold">{{ $student->permanent_address }}</span>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Class :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <span class="text-gray-600 font-bold">{{ $student->class->class_name }}</span>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="roles">
             <h1 style="text-align: center; font-weight: bolder; font-size: 25px">Fee Details</h1>
@@ -221,27 +537,6 @@
         </div>
     </div>
 
-    <h1>Diary Data</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Image</th>
-            <th>Class ID</th>
-            <th>Diary Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($diaries as $entry)
-            <tr>
-                <td>{{ $entry->id }}</td>
-                <td><img class="thumbnail" src="{{ asset('images/' . $entry->image_name) }}" alt="Image" width="100"></td>
-                <td>{{ $entry->class_id }}</td>
-                <td>{{ $entry->created_at->format('d-M-Y') }}</td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
 
     <style>
         /* Define your blue and red theme styles here */
@@ -325,3 +620,12 @@
             });
         });
     </script>
+        <script>
+            // Get all input elements within the div
+            var inputs = document.querySelectorAll('#myDiv input, #myDiv select, #myDiv textarea');
+
+            // Set all inputs to disabled or readonly
+            inputs.forEach(function(input) {
+                input.disabled = true; // Use input.readOnly = true; for read-only
+            });
+        </script>
