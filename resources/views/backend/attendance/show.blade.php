@@ -80,6 +80,7 @@
             <th>Image</th>
             <th>Class ID</th>
             <th>Diary Date</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -89,6 +90,16 @@
                 <td><img class="thumbnail" src="{{ asset('images/' . $entry->image_name) }}" alt="Image" width="100"></td>
                 <td>{{ $entry->class_id }}</td>
                 <td>{{ $entry->created_at->format('d-M-Y') }}</td>
+                <td>
+                    <!-- Delete icon with a form for CSRF protection -->
+                    <form method="POST" action="{{ route('diary.delete', ['id' => $entry->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </td>
             </tr>
         @endforeach
         </tbody>

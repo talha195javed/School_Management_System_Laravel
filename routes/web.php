@@ -98,6 +98,9 @@ Route::get('/attends_view/{class_id}', [GradeController::class, 'attends_view'])
 
 Route::get('image-upload', [ GradeController::class, 'imageUpload' ])->name('image.upload');
 Route::post('image-upload', [ GradeController::class, 'imageUploadPost' ])->name('image.upload.post');
+Route::delete('/diary/delete/{id}', [GradeController::class, 'deleteDiary'])->name('diary.delete');
+
+
 
 
 

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Attendance;
+use App\Diary;
+use App\FeeSubmittedDetails;
 use App\Grade;
 use App\Parents;
+use App\StationaryCharge;
 use App\Student;
 use App\Teacher;
 use Illuminate\Http\Request;
@@ -57,7 +61,17 @@ class HomeController extends Controller
 
             $student = Student::with(['user','parent','class','attendances'])->findOrFail($user->student->id);
 
-            return view('home', compact('student'));
+            $diaries = Diary::findDiary($student->class_id);
+
+            $class = Grade::with('subjects')->where('id', $student->class_id)->first();
+
+            $feeSubmittedDetails = FeeSubmittedDetails::where('student_id', $student->id)->get();
+
+            $stationaryCharges = StationaryCharge::where('student_id', $student->id)->get();
+
+            $attendances = Attendance::where('student_id', $student->id)->get();
+
+            return view('home', compact('student', 'diaries', 'class', 'feeSubmittedDetails', 'stationaryCharges', 'attendances'));
 
         } else {
             return 'NO ROLE ASSIGNED YET!';

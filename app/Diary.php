@@ -24,4 +24,9 @@ class Diary extends Model
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
+    public static function find($id)
+    {
+        return self::where('id', $id)->first();
+    }
 }

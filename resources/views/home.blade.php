@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="home">
+    @role('Admin')
     <div class="flex items-center justify-between mb-6">
         <div>
             <h2 class="text-gray-700 uppercase font-bold">Dashboard</h2>
@@ -15,7 +16,7 @@
         </div>
     </div>
 
-    @role('Admin')
+
         @include('dashboard.admin')
     @endrole
 

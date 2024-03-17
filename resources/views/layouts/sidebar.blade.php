@@ -6,8 +6,13 @@
             </li>
             @role('Admin')
             <li>
-                <a href="{{ route('classes.index') }}" class="flex items-center text-white-600 py-2 hover:text-red-700"><i class="fas fa-chalkboard-teacher mr-2"></i><span class="text-sm font-semibold">Classes</span></a>
+                <a href="{{ route('classes.index', ['type' => 'school']) }}" class="flex items-center text-white-600 py-2 hover:text-red-700"><i class="fas fa-chalkboard-teacher mr-2"></i><span class="text-sm font-semibold">School Classes</span></a>
             </li>
+            @if(Auth::check() && Auth::user()->id == 1)
+            <li>
+                <a href="{{ route('classes.index', ['type' => 'academy']) }}" class="flex items-center text-white-600 py-2 hover:text-red-700"><i class="fas fa-chalkboard-teacher mr-2"></i><span class="text-sm font-semibold">Academy Classes</span></a>
+            </li>
+            @endif
 {{--            <li>--}}
 {{--                <a href="{{ route('subject.index') }}" class="flex items-center text-white-600 py-2 hover:text-blue-700"><i class="fas fa-book mr-2"></i><span class="text-sm font-semibold">Subjects</span></a>--}}
 {{--            </li>--}}

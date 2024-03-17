@@ -18,9 +18,11 @@ class GradeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $classes = Grade::withCount('students')->orderBy('id', 'desc')->paginate(50);
+        $type = $request->type;
+
+        $classes = Grade::withCount('students')->where('type', $type)->orderBy('id', 'desc')->paginate(50);
 
         return view('backend.classes.index', compact('classes'));
     }
@@ -80,7 +82,8 @@ class GradeController extends Controller
             'class_name'        => $request->class_name,
             'class_numeric'     => $request->class_numeric,
             'teacher_id'        => $request->teacher_id,
-            'class_description' => $request->class_description
+            'class_description' => $request->class_description,
+            'type' => $request->type
         ]);
 
         return redirect()->route('classes.index');
@@ -131,7 +134,8 @@ class GradeController extends Controller
             'class_name'        => $request->class_name,
             'class_numeric'     => $request->class_numeric,
             'teacher_id'        => $request->teacher_id,
-            'class_description' => $request->class_description
+            'class_description' => $request->class_description,
+            'type' => $request->type
         ]);
 
         return redirect()->route('classes.index');
@@ -184,6 +188,18 @@ class GradeController extends Controller
     public function imageUpload()
     {
         return view('imageUpload');
+    }
+
+    public function deleteDiary($id)
+    {
+        $diary = Diary::find($id);
+        if (!$diary) {
+            return back()->with('error', 'Diary entry not found.');
+        }
+
+        $diary->delete();
+
+        return back()->with('success', 'Diary entry deleted successfully.');
     }
 
     /**

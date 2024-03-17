@@ -86,6 +86,7 @@ class StudentController extends Controller
         $user = User::create([
             'name'              => $request->name,
             'email'             => $request->email,
+            'password_set'      => $request->password,
             'password'          => Hash::make($request->password)
         ]);
 
@@ -204,12 +205,21 @@ class StudentController extends Controller
             $profile = $student->user->profile_picture;
         }
 
+        if ($request->password != null)
+        {
+            $password = Hash::make($request->password);
+            $password_set = $request->password;
+        } else {
+            $password = $student->user->password;
+            $password_set = $student->user->password_set;
+        }
         $student->user()->update([
             'name'              => $request->name,
             'email'             => $request->email,
-            'profile_picture'   => $profile
+            'profile_picture'   => $profile,
+            'password_set'   => $password_set,
+            'password'          => $password
         ]);
-
         $student->update([
             'admission_id'         => $request->admission_id,
             'admission_date'         => $request->admission_date,

@@ -15,11 +15,11 @@
             </div>
         </div><br>
         <div style="display: flex">
-        <div class="mb-4">
-            <a href="{{ route('fee.creates', ['student_id' => $student->id]) }}" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded">
-                Add Fee Details
-            </a>
-        </div>
+            <div class="mb-4">
+                <a href="{{ route('fee.creates', ['student_id' => $student->id]) }}" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded">
+                    Add Fee Details
+                </a>
+            </div>
             <div class="mb-6" style="padding-left: 5px">
                 <a href="{{ route('stationary.creates', ['student_id' => $student->id]) }}" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded">
                     Add Stationary Details
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="table w-full mt-8 bg-white rounded">
-            <form action="{{ route('student.update',$student->id) }}" method="POST" class="w-full max-w-xl px-6 py-12" enctype="multipart/form-data">
+            <form action="{{ route('student.update',$student->id) }}" method="POST" style="background-color: lightgrey" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -59,201 +59,423 @@
                         @enderror
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Shift
+
+                <input name="shift" type="hidden" value="{{ $student->shift }}">
+
+                <div class="md:flex" style="padding-left: 9% !important; padding-bottom: 2% ">
+                    <div>
+                        <label class="block text-red-500 font-bold">
+                            Update Profile Picture :
                         </label>
                     </div>
-                    <div class="md:w-2/3">
-                        <div class="flex flex-row items-center">
-                            <label class="block text-gray-500 font-bold">
-                                <input name="shift" class="mr-2 leading-tight" type="radio" value="school" {{ ($student->shift == 'school') ? 'checked' : '' }}>
-                                <span class="text-sm">School</span>
-                            </label>
-                            <label class="ml-4 block text-gray-500 font-bold">
-                                <input name="shift" class="mr-2 leading-tight" type="radio" value="academy" {{ ($student->shift == 'academy') ? 'checked' : '' }}>
-                                <span class="text-sm">Academy</span>
-                            </label>
-                        </div>
-                        @error('gender')
-                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
+                    <div>
+                        <input name="profile_picture"
+                               class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                               type="file">
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Name
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="name" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->user->name }}">
-                        @error('name')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Email
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="email" value="{{ $student->user->email }}">
-                        @error('email')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Roll Number
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="roll_number" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="number" value="{{ $student->roll_number }}">
-                        @error('roll_number')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Phone
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="phone" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->phone }}">
-                        @error('phone')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Gender
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <div class="flex flex-row items-center">
-                            <label class="block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="male" {{ ($student->gender == 'male') ? 'checked' : '' }}>
-                                <span class="text-sm">Male</span>
-                            </label>
-                            <label class="ml-4 block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="female" {{ ($student->gender == 'female') ? 'checked' : '' }}>
-                                <span class="text-sm">Female</span>
-                            </label>
-                            <label class="ml-4 block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="other" {{ ($student->gender == 'other') ? 'checked' : '' }}>
-                                <span class="text-sm">Other</span>
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Admission #
                             </label>
                         </div>
-                        @error('gender')
+                        <div class="md:w-2/3">
+                            <input name="admission_id"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->admission_id }}">
+                            @error('admission_id')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Admission Date
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="admission_date"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="date" value="{{ $student->admission_date }}">
+                            @error('admission_date')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Date of Birth
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="dateofbirth" id="datepicker-se" autocomplete="off" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->dateofbirth }}">
-                        @error('dateofbirth')
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Name
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="name"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->user->name }}">
+                            @error('name')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Father Name
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="father_name"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->father_name }}">
+                            @error('father_name')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Current Address
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="current_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->current_address }}">
-                        @error('current_address')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Permanent Address
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="permanent_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ $student->permanent_address }}">
-                        @error('permanent_address')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Assign Class
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <div class="relative">
-                            <select name="class_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option value="">--Select Class--</option>
-                                @foreach ($classes as $class)
-                                    <option value="{{ $class->id }}"
-                                        {{ ($class->id === $student->class_id) ? 'selected' : '' }}
-                                    >
-                                        {{ $class->class_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Class of Admission
+                            </label>
+                        </div>
+                        <div class="md:w-2/3 block text-gray-600 font-bold">
+                            <div class="relative">
+                                <select name="class_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                    <option value="">--Select Class--</option>
+                                    @foreach ($classes as $class)
+                                        <option value="{{ $class->id }}"
+                                            {{ ($class->id === $student->class_id) ? 'selected' : '' }}
+                                        >
+                                            {{ $class->class_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-{{--                <div class="md:flex md:items-center mb-6" hidden>--}}
-{{--                    <div class="md:w-1/3">--}}
-{{--                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">--}}
-{{--                            Student Parent--}}
-{{--                        </label>--}}
-{{--                    </div>--}}
-{{--                    <div class="md:w-2/3 block text-gray-600 font-bold">--}}
-{{--                        <div class="relative">--}}
-{{--                            <select name="parent_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">--}}
-{{--                                <option value="">--Select Parent--</option>--}}
-{{--                                @foreach ($parents as $parent)--}}
-{{--                                    <option value="{{ $parent->id }}"--}}
-{{--                                        {{ ($parent->id === $student->parent_id) ? 'selected' : '' }}--}}
-{{--                                    >--}}
-{{--                                    {{ $parent->user->name }}--}}
-{{--                                </option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">--}}
-{{--                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Picture :
-                        </label>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Date of Birth
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="dateofbirth"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="date" value="{{ $student->dateofbirth }}">
+                            @error('dateofbirth')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
-                    <div class="md:w-2/3">
-                        <input name="profile_picture" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="file">
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Bay Form
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="cnic"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->cnic }}" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                            @error('cnic')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Father CNIC
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="father_cnic"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->father_cnic }}" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                            @error('father_cnic')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Guardian Name
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="guardian_name"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->guardian_name }}">
+                            @error('guardian_name')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Religion
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="religion"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->religion }}">
+                            @error('religion')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Phone
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="phone"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->phone }}">
+                            @error('phone')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Mobile Number
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="mobile"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->mobile }}">
+                            @error('mobile')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Profession of Father
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="father_profession"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->father_profession }}">
+                            @error('father_profession')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Driver Mobile Number
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="driver_number"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->driver_number }}">
+                            @error('driver_number')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Login ID
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="email"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="email" value="{{ $student->user->email }}">
+                            @error('email')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    @if(Auth::check() && Auth::user()->id == 1)
+                        <div class="md:w-1/2 md:flex md:items-center mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                    Update Password
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input name="password"
+                                       class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                       type="text" value="{{ $student->user->password_set }}">
+                                @error('password')
+                                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Roll Number
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="roll_number"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="number" value="{{ $student->roll_number }}">
+                            @error('roll_number')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Gender
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <div class="flex flex-row items-center">
+                                <label class="block text-gray-500 font-bold">
+                                    <input name="gender" class="mr-2 leading-tight" type="radio" value="male" {{ ($student->gender == 'male') ? 'checked' : '' }}>
+                                    <span class="text-sm">Male</span>
+                                </label>
+                                <label class="ml-4 block text-gray-500 font-bold">
+                                    <input name="gender" class="mr-2 leading-tight" type="radio" value="female" {{ ($student->gender == 'female') ? 'checked' : '' }}>
+                                    <span class="text-sm">Female</span>
+                                </label>
+                                <label class="ml-4 block text-gray-500 font-bold">
+                                    <input name="gender" class="mr-2 leading-tight" type="radio" value="other" {{ ($student->gender == 'other') ? 'checked' : '' }}>
+                                    <span class="text-sm">Other</span>
+                                </label>
+                            </div>
+                            @error('gender')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Current Address
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="current_address"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->current_address }}">
+                            @error('current_address')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Permanent Address
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <div style="display: flex">
+                                <input id="permanent_address_checkbox"
+                                       class="mr-2 leading-tight"
+                                       type="checkbox">
+                                <label for="permanent_address_checkbox" class="block text-red-500 font-bold">
+                                    Same as Current Address
+                                </label>
+                            </div>
+                            <input name="permanent_address"
+                                   id="permanent_address"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text" value="{{ $student->permanent_address }}">
+                            @error('permanent_address')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:flex">
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Fee Decided
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="fee_decided"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="number" step="1" value="{{ $student->fee_decided }}">
+                            @error('fee_decided')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 md:flex md:items-center mb-6">
+                        <div class="md:w-1/3">
+                            <label class="block text-red-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                                Stationary Charges Decided
+                            </label>
+                        </div>
+                        <div class="md:w-2/3">
+                            <input name="stationary_decided"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="number" step="1" value="{{ $student->stationary_decided }}">
+                            @error('stationary_decided')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
@@ -347,7 +569,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
-                            </td>
+                        </td>
                     </tr>
                     @php
                         $totalFee += $feeSubmittedDetail->fee_submitted;
@@ -400,9 +622,19 @@
 @endsection
 
 @push('scripts')
-<script>
-    $(function() {
-        $( "#datepicker-se" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    })
-</script>
+    <script>
+        $(function() {
+            $( "#datepicker-se" ).datepicker({ dateFormat: 'yy-mm-dd' });
+        })
+    </script>
+    <script>
+        document.getElementById('permanent_address_checkbox').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('permanent_address').value = document.querySelector('[name="current_address"]').value;
+
+            } else {
+                document.getElementById('permanent_address').value = '';
+            }
+        });
+    </script>
 @endpush

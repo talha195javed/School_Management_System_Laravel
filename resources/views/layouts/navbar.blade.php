@@ -1,6 +1,6 @@
 <div class="bg-blue-700 px-4 sm:px-6 py-3 flex items-center justify-between shadow h-16 fixed top-0 left-0 right-0 z-50" style="background-color: #0a1e4b !important;">
     <div class="flex items-center text-white">
-        <h2 class="m-0 text-primary"><img src="web_img/new logo.png" alt="School Logo" class="me-3" style="height: 66px; width: 200%"></h2>
+        <h2 class="m-0 text-primary"><img src="/web_img/new logo.png" alt="School Logo" class="me-3" style="height: 66px; width: 200%"></h2>
     </div>
     <div class="relative">
         @auth

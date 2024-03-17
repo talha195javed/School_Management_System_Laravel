@@ -20,6 +20,18 @@ class Student extends Model
         'dateofbirth',
         'current_address',
         'permanent_address',
+        'admission_id',
+        'admission_date',
+        'father_name',
+        'cnic',
+        'father_cnic',
+        'guardian_name',
+        'religion',
+        'mobile',
+        'father_profession',
+        'driver_number',
+        'fee_decided',
+        'stationary_decided',
     ];
 
     public function user()
