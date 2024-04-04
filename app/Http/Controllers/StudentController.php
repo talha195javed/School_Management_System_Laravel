@@ -179,8 +179,8 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $request->validate([
-//            'name'              => 'required|string|max:255',
-//            'email'             => 'required|string|email|max:255|unique:users,email,'.$student->user_id,
+            'name'              => 'required|string|max:255',
+            'email'             => 'required|string|email|max:255|unique:users,email,'.$student->user_id,
 ////            'parent_id'         => 'required|numeric',
 //            'class_id'          => 'required|numeric',
 //            'roll_number'       => [
@@ -194,12 +194,13 @@ class StudentController extends Controller
 //            'shift'            => 'required|string',
 //            'phone'             => 'required|string|max:255',
 //            'dateofbirth'       => 'required|date',
-//            'current_address'   => 'required|string|max:255',
+            'current_address'   => 'required|string|max:255'
 //            'permanent_address' => 'required|string|max:255'
         ]);
 
         if ($request->hasFile('profile_picture')) {
             $profile = Str::slug($student->user->name).'-'.$student->user->id.'.'.$request->profile_picture->getClientOriginalExtension();
+
             $request->profile_picture->move(public_path('images/profile'), $profile);
         } else {
             $profile = $student->user->profile_picture;

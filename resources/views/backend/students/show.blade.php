@@ -28,7 +28,7 @@
                     <div class="md:w-1/3"></div>
                     <div class="md:w-2/3">
                         <img class="w-20 h-20 sm:w-32 sm:h-32 rounded"
-                             src="{{ asset('images/profile/' .$student->user->profile_picture) }}" alt="avatar">
+                             src="{{ asset('public/images/profile/' .$student->user->profile_picture) }}" alt="avatar">
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
